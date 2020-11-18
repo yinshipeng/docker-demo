@@ -2,6 +2,8 @@ sudo: required
 language: node_js
 node_js: 10.15.3
 cache: yarn
+services:
+    - docker
 before_install:
     - npm config set registry=http://registry.npm.taobao.org
     - npm install -g yarn@1.15.2
@@ -12,4 +14,8 @@ branches:
         - master
         - test
 before_script: chmod u+x ./bin/build.sh
-script: ./bin/build.sh
+script:
+    - ./bin/build.sh
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+    - docker build -t yinshipeng/docker-demo:latest .
+    - docker push yinshipeng/docker-demo:latest

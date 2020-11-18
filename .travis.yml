@@ -1,17 +1,15 @@
 sudo: required
 language: node_js
 node_js: 10.15.3
-yarn: 1.15.2
 cache: yarn
-
 before_install:
     - npm config set registry=http://registry.npm.taobao.org
+    - npm install -g yarn@1.15.2
 
 install: yarn
-
 branches:
     only:
         - master
         - test
-
+before_script: chmod u+x ./bin/build.sh
 script: ./bin/build.sh
